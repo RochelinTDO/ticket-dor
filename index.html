@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ticket d'or - Participation</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
     #click-sound { display: none; }
@@ -38,8 +37,7 @@
     </div>
     <p id="coordinates" class="text-gray-400 mt-4" aria-live="polite"></p>
 
-    <form id="game-form" class="mt-6 flex flex-col items-center gap-4" onsubmit="return submitParticipation(event);">
-      <input type="email" id="email" name="email" required placeholder="Votre email" class="px-4 py-2 rounded-lg text-black" />
+    <form id="game-form" class="mt-6 flex flex-col items-center" onsubmit="return confirmSubmission();">
       <input type="hidden" name="x" id="coord-x" />
       <input type="hidden" name="y" id="coord-y" />
       <button id="submit-button" type="submit" class="bg-gray-600 text-black px-6 py-3 rounded-xl font-semibold cursor-not-allowed opacity-50" disabled>
@@ -55,23 +53,6 @@
   <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
 
   <script>
-    const supabase = supabase.createClient(
-      'https://TON-PROJET.supabase.co',
-      'TON-ANON-KEY'
-    );
-
-    async function enregistrerParticipant(email, x, y, jeu = 'voiture') {
-      const { data, error } = await supabase
-        .from('participants')
-        .insert([{ email, x, y, jeu, paid: true }]);
-
-      if (error) {
-        alert("Erreur : " + error.message);
-      } else {
-        alert("Participation enregistrée !");
-      }
-    }
-
     const targetContainer = document.getElementById('target-container');
     const marker = document.getElementById('click-marker');
     const coordinatesDisplay = document.getElementById('coordinates');
@@ -111,17 +92,6 @@
 
     function confirmSubmission() {
       return confirm("Confirmez-vous votre participation avec ces coordonnées ?");
-    }
-
-    async function submitParticipation(event) {
-      event.preventDefault();
-      if (!confirmSubmission()) return false;
-
-      const email = document.getElementById('email').value;
-      const x = parseInt(coordX.value);
-      const y = parseInt(coordY.value);
-      await enregistrerParticipant(email, x, y);
-      return false;
     }
   </script>
 </body>
