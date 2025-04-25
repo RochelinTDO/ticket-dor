@@ -81,4 +81,43 @@
   </script>
 
 </body>
+  <script>
+  const cible = document.getElementById('target-container');
+  const marker = document.getElementById('click-marker');
+  const coordsText = document.getElementById('coordinates');
+  const btn = document.getElementById('participer');
+  const confirmation = document.getElementById('confirmation');
+  let coords = null;
+
+  cible.addEventListener('click', function(event) {
+    const rect = cible.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    marker.style.left = `${x}px`;
+    marker.style.top = `${y}px`;
+    marker.classList.remove('hidden');
+
+    coords = { x: Math.round(x), y: Math.round(y) };
+    coordsText.textContent = `Coordonnées sélectionnées : X=${coords.x}, Y=${coords.y}`;
+
+    btn.disabled = false; // Active le bouton après le clic
+    confirmation.classList.add('hidden');
+  });
+
+  btn.addEventListener('click', function () {
+    if (!coords) return;
+
+    console.log("Coordonnées enregistrées :", coords); // simulation d'envoi
+
+    confirmation.classList.remove('hidden');
+    btn.disabled = true; // désactive le bouton après participation
+  });
+</script>
+
 </html>
+<button id="participer" class="mt-6 inline-block bg-yellow-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+  Participer pour 10€
+</button>
+
+<p id="confirmation" class="mt-4 text-green-400 font-semibold hidden">Participation enregistrée !</p>
