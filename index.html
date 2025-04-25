@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ticket d'or</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ticket d'or - Participation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
+    #click-sound {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-black text-white">
+
   <!-- Header -->
   <header class="w-full p-4 flex justify-between items-center border-b border-gray-800">
     <h1 class="text-2xl font-bold text-yellow-400">Ticket d'or</h1>
@@ -29,31 +33,27 @@
     <a href="#jouer" class="bg-yellow-400 text-black px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-yellow-300">Participer maintenant</a>
   </section>
 
-  <!-- Concept -->
-  <section id="concept" class="bg-gray-900 py-12 px-4">
-    <div class="max-w-4xl mx-auto text-center">
-      <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Comment ça marche ?</h3>
-      <p class="text-gray-300 mb-6">
-        Une vidéo sera publiée avec une fléchette lancée sur une cible. Elle s'arrête juste avant l'impact. À vous de deviner où elle a atterri ! Celui qui s'en rapproche le plus remporte la voiture.
-      </p>
-      <p class="text-gray-400">Nombre de participations limitées. Remboursement garanti si le quota n'est pas atteint.</p>
-    </div>
-  </section>
-
-  <!-- Appel à jouer -->
+  <!-- Section jouer -->
   <section id="jouer" class="py-12 px-4 text-center">
     <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Prêt à jouer ?</h3>
     <p class="text-gray-300 mb-6">Cliquez sur la cible pour choisir votre point précis.</p>
 
     <!-- Cible interactive -->
-    <div class="mx-auto w-64 h-64 rounded-full overflow-hidden relative cursor-crosshair" id="target-container">
-      <img src="cible.png" alt="Cible" class="w-full h-full object-cover">
+    <div class="mx-auto w-64 h-64 rounded-full overflow-hidden relative cursor-crosshair" id="target-container" role="button" aria-label="Cible interactive du jeu">
+      <img src="cible.png" alt="Cible du jeu - cliquez pour participer" class="w-full h-full object-cover" />
       <div id="click-marker" class="absolute w-4 h-4 bg-yellow-400 rounded-full hidden transform -translate-x-1/2 -translate-y-1/2"></div>
     </div>
 
-    <p id="coordinates" class="text-gray-400 mt-4"></p>
- <a href="#" class="mt-6 inline-block bg-yellow-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-yellow-300">Participer pour 10€</a>
+    <p id="coordinates" class="text-gray-400 mt-4" aria-live="polite"></p>
 
+    <!-- Formulaire -->
+    <form id="game-form" class="mt-6 flex flex-col items-center" onsubmit="return confirmSubmission();">
+      <input type="hidden" name="x" id="coord-x" />
+      <input type="hidden" name="y" id="coord-y" />
+      <button id="submit-button" type="submit" class="bg-gray-600 text-black px-6 py-3 rounded-xl font-semibold cursor-not-allowed opacity-50" disabled>
+        Participer pour 10€
+      </button>
+    </form>
   </section>
 
   <!-- Footer -->
@@ -61,25 +61,59 @@
     &copy; 2025 Ticket d'or. Tous droits réservés. | <a href="#reglement" class="text-yellow-400">Règlement</a>
   </footer>
 
-  <!-- Script pour gérer le clic -->
+  <!-- Effet sonore -->
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+
+  <!-- Script -->
   <script>
     const targetContainer = document.getElementById('target-container');
     const marker = document.getElementById('click-marker');
     const coordinatesDisplay = document.getElementById('coordinates');
+    const coordX = document.getElementById('coord-x');
+    const coordY = document.getElementById('coord-y');
+    const submitButton = document.getElementById('submit-button');
+    const clickSound = document.getElementById('click-sound');
 
     targetContainer.addEventListener('click', function(event) {
       const rect = targetContainer.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
+      // Vérification que le clic est dans la cible circulaire
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const radius = rect.width / 2;
+      const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+
+      if (distance > radius) return;
+
+      // Mise à jour du marqueur
       marker.style.left = x + 'px';
       marker.style.top = y + 'px';
       marker.classList.remove('hidden');
 
-      coordinatesDisplay.textContent = `Coordonnées sélectionnées : X=${Math.round(x)}, Y=${Math.round(y)}`;
-    });
-  </script>
+      // Affichage des coordonnées
+      const roundedX = Math.round(x);
+      const roundedY = Math.round(y);
+      coordinatesDisplay.textContent = `Coordonnées sélectionnées : X=${roundedX}, Y=${roundedY}`;
 
+      // Mise à jour du formulaire
+      coordX.value = roundedX;
+      coordY.value = roundedY;
+
+      // Activation du bouton
+      submitButton.disabled = false;
+      submitButton.classList.remove('bg-gray-600', 'cursor-not-allowed', 'opacity-50');
+      submitButton.classList.add('bg-yellow-400', 'hover:bg-yellow-300');
+
+      // Effet sonore
+      clickSound.currentTime = 0;
+      clickSound.play();
+    });
+
+    function confirmSubmission() {
+      return confirm("Confirmez-vous votre participation avec ces coordonnées ?");
+    }
+  </script>
 </body>
 </html>
-
