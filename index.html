@@ -7,9 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
-    #click-sound {
-      display: none;
-    }
+    #click-sound { display: none; }
   </style>
 </head>
 <body class="bg-black text-white">
@@ -48,6 +46,12 @@
 
     <!-- Formulaire -->
     <form id="game-form" class="mt-6 flex flex-col items-center" onsubmit="return confirmSubmission();">
+      <!-- Slider de volume -->
+      <div class="flex items-center space-x-2 text-gray-300 mb-4">
+        <label for="volume-slider" class="text-sm">Volume :</label>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.3" class="w-40">
+      </div>
+
       <input type="hidden" name="x" id="coord-x" />
       <input type="hidden" name="y" id="coord-y" />
       <button id="submit-button" type="submit" class="bg-gray-600 text-black px-6 py-3 rounded-xl font-semibold cursor-not-allowed opacity-50" disabled>
@@ -62,7 +66,7 @@
   </footer>
 
   <!-- Effet sonore -->
-  <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
 
   <!-- Script -->
   <script>
@@ -73,44 +77,52 @@
     const coordY = document.getElementById('coord-y');
     const submitButton = document.getElementById('submit-button');
     const clickSound = document.getElementById('click-sound');
+    const volumeSlider = document.getElementById('volume-slider');
 
+    // Initialiser le volume avec la valeur du slider
+    clickSound.volume = volumeSlider.value;
+
+    // Mettre à jour le volume dynamiquement
+    volumeSlider.addEventListener('input', () => {
+      clickSound.volume = volumeSlider.value;
+    });
+
+    // Gestion du clic sur la cible
     targetContainer.addEventListener('click', function(event) {
       const rect = targetContainer.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
-      // Vérification que le clic est dans la cible circulaire
+      // Vérification du cercle
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       const radius = rect.width / 2;
       const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-
       if (distance > radius) return;
 
-      // Mise à jour du marqueur
+      // Afficher marqueur
       marker.style.left = x + 'px';
       marker.style.top = y + 'px';
       marker.classList.remove('hidden');
 
-      // Affichage des coordonnées
+      // Affichage et stockage coordonnées
       const roundedX = Math.round(x);
       const roundedY = Math.round(y);
       coordinatesDisplay.textContent = `Coordonnées sélectionnées : X=${roundedX}, Y=${roundedY}`;
-
-      // Mise à jour du formulaire
       coordX.value = roundedX;
       coordY.value = roundedY;
 
-      // Activation du bouton
+      // Activer bouton
       submitButton.disabled = false;
       submitButton.classList.remove('bg-gray-600', 'cursor-not-allowed', 'opacity-50');
       submitButton.classList.add('bg-yellow-400', 'hover:bg-yellow-300');
 
-      // Effet sonore
+      // Son
       clickSound.currentTime = 0;
       clickSound.play();
     });
 
+    // Confirmation participation
     function confirmSubmission() {
       return confirm("Confirmez-vous votre participation avec ces coordonnées ?");
     }
