@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,8 +12,6 @@
   </style>
 </head>
 <body class="bg-black text-white">
-
-  <!-- Header -->
   <header class="w-full p-4 flex justify-between items-center border-b border-gray-800">
     <h1 class="text-2xl font-bold text-yellow-400">Ticket d'or</h1>
     <nav class="space-x-4">
@@ -21,8 +20,6 @@
       <a href="reglement.html" class="text-gray-300 hover:text-yellow-400" target="_blank">Règlement</a>
     </nav>
   </header>
-
-  <!-- Hero -->
   <section class="text-center py-16 px-4">
     <h2 class="text-4xl font-bold mb-4 text-yellow-400">Tente ta chance pour gagner une voiture !</h2>
     <p class="text-lg text-gray-300 max-w-xl mx-auto mb-6">
@@ -30,21 +27,14 @@
     </p>
     <a href="#jouer" class="bg-yellow-400 text-black px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-yellow-300">Participer maintenant</a>
   </section>
-
-  <!-- Section jouer -->
   <section id="jouer" class="py-12 px-4 text-center">
     <h3 class="text-2xl font-semibold text-yellow-400 mb-4">Prêt à jouer ?</h3>
     <p class="text-gray-300 mb-6">Cliquez sur la cible pour choisir votre point précis.</p>
-
-    <!-- Cible interactive -->
     <div class="mx-auto w-64 h-64 rounded-full overflow-hidden relative cursor-crosshair" id="target-container" role="button" aria-label="Cible interactive du jeu">
       <img src="cible.png" alt="Cible du jeu - cliquez pour participer" class="w-full h-full object-cover" />
       <div id="click-marker" class="absolute w-4 h-4 bg-yellow-400 rounded-full hidden transform -translate-x-1/2 -translate-y-1/2"></div>
     </div>
-
     <p id="coordinates" class="text-gray-400 mt-4" aria-live="polite"></p>
-
-    <!-- Formulaire -->
     <form id="game-form" class="mt-6 flex flex-col items-center" onsubmit="return confirmSubmission();">
       <input type="hidden" name="x" id="coord-x" />
       <input type="hidden" name="y" id="coord-y" />
@@ -53,16 +43,10 @@
       </button>
     </form>
   </section>
-
-  <!-- Footer -->
   <footer class="bg-gray-900 py-6 px-4 text-center text-sm text-gray-500">
     &copy; 2025 Ticket d'or. Tous droits réservés. | <a href="reglement.html" class="text-yellow-400" target="_blank">Règlement</a>
   </footer>
-
-  <!-- Son clic -->
-  <audio id="click-sound" src="pop.mp3" preload="auto"></audio>
-
-  <!-- Script principal -->
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
   <script>
     const targetContainer = document.getElementById('target-container');
     const marker = document.getElementById('click-marker');
@@ -105,6 +89,5 @@
       return confirm("Confirmez-vous votre participation avec ces coordonnées ?");
     }
   </script>
-
 </body>
 </html>
