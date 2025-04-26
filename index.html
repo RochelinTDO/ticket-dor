@@ -1,88 +1,22 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu d'adresse - Page d'accueil</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            color: #333;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        header img {
-            width: 100px;
-            height: auto;
-        }
-        nav {
-            display: flex;
-            gap: 20px;
-        }
-        nav a {
-            text-decoration: none;
-            color: #b38b3c; /* Or gold color */
-            font-weight: bold;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #c7a440; /* Slightly lighter gold */
-        }
-        .content {
-            text-align: center;
-            padding: 50px;
-            background-color: #f9f9f9;
-        }
-        .content h1 {
-            font-size: 48px;
-            color: #b38b3c; /* Gold color */
-        }
-        .content p {
-            font-size: 20px;
-            color: #666;
-            max-width: 800px;
-            margin: 20px auto;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #b38b3c;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <!-- Logo -->
-        <img src="votre-logo.png" alt="Logo du jeu">
-        
-        <!-- Menu -->
-        <nav>
-            <a href="#concept">Concept</a>
-            <a href="#reglement">Règlement</a>
-            <a href="#parametres">Paramètres</a>
-        </nav>
-    </header>
+<script>
+  const cible = document.getElementById('cible');
+  const resultat = document.getElementById('resultat');
 
-    <div class="content">
-        <h1>Bienvenue dans le jeu d'adresse ultime</h1>
-        <p>
-            Le but de ce jeu est simple : prédisez l'emplacement exact de la fléchette sur la cible avant qu'elle n'atteigne sa destination. Plus vous êtes précis, plus vous gagnez ! Relevez le défi et tentez de devenir le maître de l'adresse.
-        </p>
-    </div>
+  cible.addEventListener('click', function(event) {
+    const rect = cible.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
-    <footer>
-        <p>&copy; 2025 Jeu d'adresse. Tous droits réservés.</p>
-    </footer>
-</body>
-</html>
+    let point = document.getElementById('point');
+    if (!point) {
+      point = document.createElement('div');
+      point.id = 'point';
+      cible.appendChild(point);
+    }
+
+    point.style.left = x + 'px';
+    point.style.top = y + 'px';
+
+    resultat.textContent = `Tu as cliqué à X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+  });
+</script>
