@@ -5,55 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Ticket d'Or</title>
     <style>
+        /* Global settings */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            flex-direction: column;
         }
 
-        .container {
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-        }
-
+        /* Header */
         .header {
             font-size: 24px;
             font-weight: bold;
             color: #f1c40f;
-            margin-bottom: 30px;
+            text-align: center;
+            margin-top: 20px;
         }
 
+        /* Section principale */
         .game-image {
             font-size: 18px;
-            margin-bottom: 30px;
             color: #333;
+            text-align: center;
+            margin-top: 30px;
         }
 
+        /* Container pour les icônes et les boutons */
         .icons-container {
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
+            justify-content: space-evenly;
+            width: 100%;
+            margin-top: 50px;
+            padding: 0 20px;
         }
 
+        /* Styles pour chaque icône */
         .icon-item {
             text-align: center;
         }
 
         .icon-item img {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             margin-bottom: 10px;
         }
 
         .icon-item p {
             font-size: 18px;
             color: #f1c40f;
+            font-weight: bold;
         }
 
         .button {
@@ -62,8 +67,9 @@
             background-color: #f1c40f;
             color: white;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
             border-radius: 5px;
+            margin-top: 10px;
             transition: background-color 0.3s ease;
         }
 
@@ -71,6 +77,7 @@
             background-color: #e0b90f;
         }
 
+        /* Footer */
         footer {
             position: absolute;
             bottom: 20px;
@@ -82,32 +89,31 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">Le Ticket d'Or</div>
-        <div class="game-image">Image de jeu en cours</div>
+    <div class="header">Le Ticket d'Or</div>
 
-        <div class="icons-container">
-            <div class="icon-item">
-                <img src="https://img.icons8.com/ios-filled/50/000000/car.png" alt="Voiture">
-                <p>Voitu</p>
-                <a href="#" class="button">Jouer</a>
-            </div>
-            <div class="icon-item">
-                <img src="https://img.icons8.com/ios-filled/50/000000/helmet.png" alt="Casque">
-                <p>Mo</p>
-                <a href="#" class="button">Jouer</a>
-            </div>
-            <div class="icon-item">
-                <img src="https://img.icons8.com/ios-filled/50/000000/money.png" alt="Dollar">
-                <p>Lifesty</p>
-                <a href="#" class="button">Jouer</a>
-            </div>
+    <div class="game-image">Image de jeu en cours</div>
+
+    <div class="icons-container">
+        <div class="icon-item">
+            <img src="https://img.icons8.com/ios-filled/50/000000/car.png" alt="Volant">
+            <p>Voitu</p>
+            <a href="#" class="button">Jouer</a>
         </div>
-
-        <footer>
-            <p>&copy; 2019 Le Ticket d'Or. Développé par Rochelin.</p>
-        </footer>
+        <div class="icon-item">
+            <img src="https://img.icons8.com/ios-filled/50/000000/helmet.png" alt="Casque">
+            <p>Mo</p>
+            <a href="#" class="button">Jouer</a>
+        </div>
+        <div class="icon-item">
+            <img src="https://img.icons8.com/ios-filled/50/000000/money.png" alt="Dollar">
+            <p>Lifesty</p>
+            <a href="#" class="button">Jouer</a>
+        </div>
     </div>
+
+    <footer>
+        <p>&copy; 2019 Le Ticket d'Or. Développé par Rochelin.</p>
+    </footer>
 
 </body>
 </html>
